@@ -1,0 +1,45 @@
+dataset:
+  data_path: data/ball
+  shadow_threshold: 0.1
+  sparse_input: null
+  sparse_input_random_seed: null
+experiment:
+  batch_size: 4*1
+  cuda: cuda:0
+  end_epoch: 30000
+  eval_every_iter: 1000
+  log_path: ./outputs/results
+  randomseed: null
+  save_every_epoch: 1000
+  start_epoch: 1
+loss:
+  ph_factor: 2.0
+  contact_factor: 3.0
+  normal_factor: 0.4
+  rgb_loss: l1
+models:
+  checkpoint_path: null
+  light_model:
+    explicit_position: true
+    explicit_intensity: true
+    hidden_size: 64
+    ld_noise: 0
+    li_noise: 0
+    num_layers: 3
+    skip_connect_every: 8
+    type: Light_Model_CNN
+  load_checkpoint: false
+  nerf:
+    hidden_size: 256
+    include_input_input1: 2
+    include_input_input2: 0
+    num_encoding_fn_input1: 10
+    num_encoding_fn_input2: 0
+    num_layers: 8
+    skip_connect_every: 3
+optimizer:
+  lr: 0.001
+  type: Adam
+scheduler:
+  gamma: 1
+  step_size: 500000
