@@ -82,12 +82,12 @@ def train(input_data, testing):
         # self supervised loss function
         # background photometric loss
         ph_loss = (render_rgb - gt_rgb).abs() * (1 - gt_mask)
-        ph_loss = ph_loss.mean() / (1 - gt_mask).mean()
+        ph_loss = ph_loss.sum() / (1 - gt_mask).sum()
         ph_loss_val = ph_loss.item()
 
         # background normal loss
         norm_loss = (est_normal - gt_normal).abs() * (1 - gt_mask)
-        norm_loss = norm_loss.mean() / (1 - gt_mask).mean()
+        norm_loss = norm_loss.sum() / (1 - gt_mask).sum()
         norm_loss_val = norm_loss.item()
 
         # contact region loss
@@ -103,7 +103,7 @@ def train(input_data, testing):
         contact_loss = []
         contact_loss += [0.15 * (rgb_render - rgb_gt).abs() * mask_gt]
         contact_loss += [0.85 * SSIM(rgb_render * mask_gt, rgb_gt * mask_gt)]
-        contact_loss = sum([l.mean() for l in contact_loss]) / mask_gt.mean()
+        contact_loss = sum([l.sum() for l in contact_loss]) / mask_gt.sum()
         contact_loss_val = contact_loss.item()
 
         loss = cfg.loss.ph_factor * ph_loss + \
